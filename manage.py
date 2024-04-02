@@ -2,11 +2,19 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from reconPoint.settings import REMOTE_DEBUG
 
+if REMOTE_DEBUG and sys.argv[1] == 'runserver':
+    from debugger_setup import setup_debugger
+    setup_debugger()
 
 def main():
-    """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vercel_app.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reconPoint.settings')
+    # show reconpoint artwork
+    f = open('art/reconPoint.txt', 'r')
+    file_contents = f.read()
+    print (file_contents)
+    f.close()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
